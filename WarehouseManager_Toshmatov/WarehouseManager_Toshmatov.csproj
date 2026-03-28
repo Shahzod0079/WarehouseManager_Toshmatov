@@ -173,7 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="ViewModels\Views\Main.xaml.cs">
+    <Compile Include="ViewModels\View\Items\OrderItem.xaml.cs">
+      <DependentUpon>OrderItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\View\Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\VM_Pages.cs" />
@@ -194,7 +197,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="ViewModels\Views\Main.xaml">
+    <Page Include="ViewModels\View\Items\OrderItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewModels\View\Main.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -229,7 +236,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ViewModels\Views\Items\" />
+    <Resource Include="Image\ic_order.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Image\ic_close.png" />
