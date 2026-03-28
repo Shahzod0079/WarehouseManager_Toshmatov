@@ -1,6 +1,7 @@
 ﻿using WarehouseManager_Toshmatov.Classes;
-using WarehouseManager_Toshmatov.ViewModels.Views;
-
+using WarehouseManager_Toshmatov.Views;
+using System.Windows;
+using System;
 
 namespace WarehouseManager_Toshmatov.ViewModels
 {
@@ -10,7 +11,26 @@ namespace WarehouseManager_Toshmatov.ViewModels
 
         public VM_Pages()
         {
-            MainWindow.init.frame.Navigate(new Main(vm_Warehouse));
+            try
+            {
+                if (MainWindow.init == null)
+                {
+                    MessageBox.Show("MainWindow.init = null");
+                    return;
+                }
+
+                if (MainWindow.init.frame == null)
+                {
+                    MessageBox.Show("MainWindow.init.frame = null");
+                    return;
+                }
+
+                MainWindow.init.frame.Navigate(new Main(vm_Warehouse));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
         }
 
         public RealyCommand OnClose

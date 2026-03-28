@@ -1,5 +1,8 @@
-﻿using System;
-using WarehouseManager_Toshmatov.Classes;
+﻿using WarehouseManager_Toshmatov.Classes;
+using System;
+using System.Windows;
+using System.ComponentModel.DataAnnotations.Schema;
+using WarehouseManager_Toshmatov.ViewModels;
 
 namespace WarehouseManager_Toshmatov.Models
 {
@@ -15,6 +18,7 @@ namespace WarehouseManager_Toshmatov.Models
             {
                 productName = value;
                 OnPropertyChanged("ProductName");
+                OnPropertyChanged("TotalAmount");
             }
         }
 
@@ -26,8 +30,10 @@ namespace WarehouseManager_Toshmatov.Models
             {
                 quantity = value;
                 OnPropertyChanged("Quantity");
+                OnPropertyChanged("TotalAmount");
             }
         }
+
         private decimal price;
         public decimal Price
         {
@@ -36,7 +42,7 @@ namespace WarehouseManager_Toshmatov.Models
             {
                 price = value;
                 OnPropertyChanged("Price");
-                OnPropertyChanged("TotalAmout");
+                OnPropertyChanged("TotalAmount");
             }
         }
 
@@ -53,7 +59,7 @@ namespace WarehouseManager_Toshmatov.Models
 
         public decimal TotalAmount
         {
-            get { return Quantity * Price;  }
+            get { return Quantity * Price; }
         }
 
         private bool isCompleted;
@@ -63,7 +69,7 @@ namespace WarehouseManager_Toshmatov.Models
             set
             {
                 isCompleted = value;
-                OnPropertyChanged("isCompleted");
+                OnPropertyChanged("IsCompleted");
                 OnPropertyChanged("StatusText");
             }
         }
@@ -85,7 +91,7 @@ namespace WarehouseManager_Toshmatov.Models
         }
 
         private Supplier supplier;
-        public Supplier Supplier
+        public virtual Supplier Supplier
         {
             get { return supplier; }
             set
@@ -95,5 +101,86 @@ namespace WarehouseManager_Toshmatov.Models
             }
         }
 
+        //  редактирования
+        private bool isEnable;
+        [NotMapped]
+        public bool IsEnable
+        {
+            get { return isEnable; }
+            set
+            {
+                isEnable = value;
+                OnPropertyChanged("IsEnable");
+                OnPropertyChanged("IsEnableText");
+            }
+        }
+
+        [NotMapped]
+        public string IsEnableText
+        {
+            get
+            {
+                if (IsEnable) return "Сохранить";
+                else return "Изменить";
+            }
+        }
+
+        [NotMapped]
+        public RealyCommand OnEdit
+        {
+            get
+            {
+                return new RealyCommand(obj =>
+                {
+                    IsEnable = !IsEnable;
+
+                    if (!IsEnable)
+                    {
+                        var vm = MainWindow.init.DataContext as VM_Pages;
+                        vm?.vm_Warehouse.dbContext.SaveChanges();
+                    }
+                });
+            }
+        }
+
+        // изменения статуса
+        [NotMapped]
+        public RealyCommand OnToggleStatus
+        {
+            get
+            {
+                return new RealyCommand(obj =>
+                {
+                    IsCompleted = !IsCompleted;
+
+                    var vm = MainWindow.init.DataContext as VM_Pages;
+                    vm?.vm_Warehouse.dbContext.SaveChanges();
+                });
+            }
+        }
+
+        // удаления
+        [NotMapped]
+        public RealyCommand OnDelete
+        {
+            get
+            {
+                return new RealyCommand(obj =>
+                {
+                    if (MessageBox.Show("Вы уверены что хотите удалить заказ?",
+                        "Предупреждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        var vm = MainWindow.init.DataContext as VM_Pages;
+                        if (vm != null)
+                        {
+                            vm.vm_Warehouse.Orders.Remove(this);
+                            vm.vm_Warehouse.dbContext.Orders.Remove(this);
+                            vm.vm_Warehouse.dbContext.SaveChanges();
+                            vm.vm_Warehouse.UpdateTotalSum();
+                        }
+                    }
+                });
+            }
+        }
     }
 }

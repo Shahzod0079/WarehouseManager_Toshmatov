@@ -79,13 +79,18 @@
                             Margin="10,25,10,0"   VerticalAlignment="Top" Height="25"/>
             </Grid>
 
+            <!-- Сумма -->
             <Grid Margin="10,80,10,0" Height="60" VerticalAlignment="Top" Background="White" Grid.Column="1">
                 <Grid.Effect>
                     <DropShadowEffect Opacity="0.1"/>
                 </Grid.Effect>
                 <Label Content="Сумма:" VerticalAlignment="Top" Margin="10,0,10,0"/>
-                <TextBox Text="{Binding TotalAmount, StringFormat={}{0:C}}"  IsEnabled="False" Background="#F5F5F5" VerticalContentAlignment="Center" 
-                         Margin="10,25,10,0"  VerticalAlignment="Top"   Height="25"/>
+                <TextBlock Text="{Binding TotalAmount, StringFormat={}{0:C}}" 
+               FontWeight="Bold" 
+               Foreground="Green"
+               VerticalAlignment="Center"
+               Margin="10,25,10,0" 
+               Height="25"/>
             </Grid>
 
             <Button Style="{StaticResource Update}" Command="{Binding OnEdit}"  Content="{Binding IsEnableText}"  Height="25" Width="70"

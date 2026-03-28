@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Policy;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using WarehouseManager_Toshmatov.Classes;
@@ -101,13 +102,13 @@ namespace WarehouseManager_Toshmatov.ViewModels
         }
 
         // Обновляем общую сумму (агрегатная функция)
-        private void UpdateTotalSum()
+        public void UpdateTotalSum()
         {
             var total = Orders.Sum(o => o.TotalAmount);
             TotalOrdersSum = $"Общая сумма заказов: {total:C}";
         }
 
-        // Команда добавления заказа
+        // добавления заказа 
         public RealyCommand OnAddOrder
         {
             get
@@ -118,6 +119,9 @@ namespace WarehouseManager_Toshmatov.ViewModels
                     {
                         Order newOrder = new Order()
                         {
+                            ProductName = "Новый заказ",
+                            Quantity = 1,                 
+                            Price = 0,                 
                             OrderDate = DateTime.Now,
                             IsCompleted = false
                         };

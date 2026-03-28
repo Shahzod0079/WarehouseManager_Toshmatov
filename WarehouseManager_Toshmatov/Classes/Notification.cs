@@ -9,8 +9,10 @@ namespace WarehouseManager_Toshmatov.Classes
 
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
+            if (PropertyChanged != null)  // ← добавить проверку
+            {
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
             }
         }
     }
-
+}
