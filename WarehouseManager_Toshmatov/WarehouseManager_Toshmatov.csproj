@@ -183,6 +183,7 @@
     </Compile>
     <Compile Include="Classes\Database\Config.cs" />
     <Compile Include="Classes\Notification.cs" />
+    <Compile Include="Classes\RealyCommand.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
