@@ -41,6 +41,7 @@ namespace WarehouseManager_Toshmatov.ViewModels
                 ApplyFilters();
             }
         }
+
         public string TotalOrdersSum
         {
             get { return totalOrdersSum; }
@@ -55,19 +56,20 @@ namespace WarehouseManager_Toshmatov.ViewModels
         {
             dbContext.Database.EnsureCreated();
 
-            //Загружаем данные с учетом свзяей
+            // Загружаем данные с учетом связей
             allOrders = new ObservableCollection<Order>(
-                .Include(object => o.OrderDate)
-                .OrderByDescending(o => o.OrderDate)
-                .ToList());
+                dbContext.Orders
+                    .Include(o => o.Supplier)
+                    .OrderByDescending(o => o.OrderDate)
+                    .ToList());
 
             Orders = new ObservableCollection<Order>(allOrders);
 
-            //Загружаем поставщиков
+            // Загружаем поставщиков
             Suppliers = new ObservableCollection<Supplier>(
                 dbContext.Suppliers.OrderBy(s => s.Name).ToList());
 
-            //Расчет общей суммы заказов
+            // Расчет общей суммы заказов
             UpdateTotalSum();
         }
 
@@ -75,22 +77,22 @@ namespace WarehouseManager_Toshmatov.ViewModels
         {
             var filtered = allOrders.AsEnumerable();
 
-            //Фильтрируем по названию продукта
+            // Фильтруем по названию продукта
             if (!string.IsNullOrWhiteSpace(SearchText))
             {
                 filtered = filtered.Where(o =>
-                o.ProductName != null &&
-                o.ProductName.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) => 0); 
+                    o.ProductName != null &&
+                    o.ProductName.IndexOf(SearchText, StringComparison.OrdinalIgnoreCase) >= 0);
             }
 
-            //Фильтрируем по поставщику
-            if (selectedSupplier != null)
+            // Фильтруем по поставщику
+            if (SelectedSupplier != null)
             {
-                filtered = filtered.Where(o => o.SupplierId == selectedSupplier.SupplierId);
+                filtered = filtered.Where(o => o.SupplierId == SelectedSupplier.Id);
             }
 
             Orders.Clear();
-            foreach (var o in filtered)
+            foreach (var order in filtered)
             {
                 Orders.Add(order);
             }
@@ -98,25 +100,26 @@ namespace WarehouseManager_Toshmatov.ViewModels
             UpdateTotalSum();
         }
 
-        //Обновляем общую сумму (агрегатная функция)
+        // Обновляем общую сумму (агрегатная функция)
         private void UpdateTotalSum()
         {
             var total = Orders.Sum(o => o.TotalAmount);
-            TotalOrdersSum = $"Общая сумма заказов:  {total:C}";
+            TotalOrdersSum = $"Общая сумма заказов: {total:C}";
         }
-        //Команда добавления заказа 
+
+        // Команда добавления заказа
         public RealyCommand OnAddOrder
         {
             get
             {
-                return new RealyCommand(object =>
+                return new RealyCommand(obj =>
                 {
                     try
                     {
-                        Orders newOrder = new Prder()
+                        Order newOrder = new Order()
                         {
-                            Orderdate = DateTime.Now,
-                            IsCompleted = false,
+                            OrderDate = DateTime.Now,
+                            IsCompleted = false
                         };
 
                         Orders.Add(newOrder);
@@ -127,13 +130,13 @@ namespace WarehouseManager_Toshmatov.ViewModels
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.InnerException?.Message ?? ex.Message,);
+                        MessageBox.Show(ex.InnerException?.Message ?? ex.Message);
                     }
                 });
             }
         }
 
-        //Сброс фильтров 
+        // Сброс фильтров
         public RealyCommand OnResetFilters
         {
             get

@@ -1,5 +1,6 @@
 ﻿using WarehouseManager_Toshmatov.Classes;
-using WarehouseManager_Toshmatov.Views;
+using WarehouseManager_Toshmatov.ViewModels.Views;
+
 
 namespace WarehouseManager_Toshmatov.ViewModels
 {

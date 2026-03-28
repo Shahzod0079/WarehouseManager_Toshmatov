@@ -5,8 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WarehouseManager_Toshmatov"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="MainWindow" Height="550" Width="900" FontFamily="Bahnschrift Light Condensed" WindowStyle="None">
+
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <ImageBrush ImageSource="/Image/ic_close.png"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="#00FFFF00"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="#F0F0F0">
+        <Grid Height="50" VerticalAlignment="Top" Background="White">
+            <Grid.Effect>
+                <DropShadowEffect Opacity="0.1"/>
+            </Grid.Effect>
+            <Image Width="40" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0"
+                   Source="/Image/ic_supplier.png"/>
+            <Label Content="Складской менеджер - Заказы и поставщики" 
+                   VerticalAlignment="Center" 
+                   HorizontalAlignment="Center" 
+                   FontSize="18"/>
+            <Button Command="{Binding OnClose}" Width="20" Height="20" 
+                    VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10">
+                <Button.Effect>
+                    <DropShadowEffect Opacity="0.5" BlurRadius="3" ShadowDepth="3"/>
+                </Button.Effect>
+            </Button>
+        </Grid>
+        <Frame x:Name="frame" NavigationUIVisibility="Hidden" Margin="0,55,0,0"/>
     </Grid>
 </Window>

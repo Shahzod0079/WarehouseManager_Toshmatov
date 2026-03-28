@@ -44,6 +44,7 @@ namespace WarehouseManager_Toshmatov.Models
             }
         }
         public virtual ObservableCollection<Order> Orders { get; set; }
+        public string ContactPerson { get; internal set; }
 
         public Supplier()
         {
