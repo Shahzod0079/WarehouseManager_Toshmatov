@@ -56,7 +56,7 @@ namespace WarehouseManager_Toshmatov.Models
             get { return Quantity * Price;  }
         }
 
-        private bool isCompleted
+        private bool isCompleted;
         public bool IsCompleted
         {
             get { return isCompleted; }

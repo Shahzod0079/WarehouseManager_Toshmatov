@@ -184,6 +184,7 @@
     <Compile Include="Classes\Database\Config.cs" />
     <Compile Include="Classes\Notification.cs" />
     <Compile Include="Classes\RealyCommand.cs" />
+    <Compile Include="Context\WarehouseContext.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -219,8 +220,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Context\" />
-    <Folder Include="Images\" />
+    <Folder Include="Image\" />
     <Folder Include="ViewModels\Views\Items\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
