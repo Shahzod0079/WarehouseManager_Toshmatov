@@ -181,6 +181,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\Database\Config.cs" />
+    <Compile Include="Classes\Notification.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -214,7 +216,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Classes\Database\" />
     <Folder Include="Context\" />
     <Folder Include="Images\" />
     <Folder Include="Models\" />
